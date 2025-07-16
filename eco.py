@@ -25,7 +25,7 @@ def createEcosystem() -> Ecosystem:
     It is used to test the YellowDataPlatform."""
     ecosys: Ecosystem = Ecosystem(
         name="Test",
-        repo=GitHubRepository("billynewport/repo", "ECOmain"),
+        repo=GitHubRepository("billynewport/mvpmodel", "main"),
         data_platforms=[
             YellowDataPlatform(
                 name="YellowLive",
@@ -56,7 +56,7 @@ def createEcosystem() -> Ecosystem:
         ],
         default_data_platform=DefaultDataPlatform(DataPlatformKey("YellowLive")),
         governance_zone_declarations=[
-            GovernanceZoneDeclaration("USA", GitHubRepository("billynewport/repo", "USAmain"))
+            GovernanceZoneDeclaration("USA", GitHubRepository("billynewport/mvpmodel", "gzmain"))
         ],
         infrastructure_vendors=[
             # Onsite data centers
