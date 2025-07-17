@@ -28,7 +28,7 @@ def createEcosystem() -> Ecosystem:
     k8s_merge_datacontainer: PostgresDatabase = PostgresDatabase(
         "K8sMergeDB",  # Container name for Kubernetes deployment
         hostPort=HostPortPair("pg-data.ns-kub-pg-test.svc.cluster.local", 5432),
-        locations={LocationKey("MyCorp:USA/K8sCluster")},  # Kubernetes cluster location
+        locations={LocationKey("MyCorp:USA/MyCorp:USA/NY_1")},  # Kubernetes cluster location
         databaseName="datasurface_merge"  # The database we created
     )
 
