@@ -23,6 +23,16 @@ from datasurface.md import Workspace, DatasetSink, DatasetGroup, PostgresDatabas
 def createEcosystem() -> Ecosystem:
     """This is a very simple test model with a single datastore and dataset.
     It is used to test the YellowDataPlatform."""
+
+    # Kubernetes merge database configuration
+    k8s_merge_datacontainer: PostgresDatabase = PostgresDatabase(
+        "K8sMergeDB",  # Container name for Kubernetes deployment
+        hostPort=HostPortPair("pg-data.ns-kub-pg-test.svc.cluster.local", 5432),
+        locations={LocationKey("MyCorp:USA/K8sCluster")},  # Kubernetes cluster location
+        databaseName="datasurface_merge"  # The database we created
+    )
+
+
     ecosys: Ecosystem = Ecosystem(
         name="Test",
         repo=GitHubRepository("billynewport/mvpmodel", "main"),
@@ -31,12 +41,12 @@ def createEcosystem() -> Ecosystem:
                 name="YellowLive",
                 locs={LocationKey("MyCorp:USA/NY_1")},
                 doc=PlainTextDocumentation("Live Yellow DataPlatform"),
-                postgresName="pg-data",  # Both YellowDataPlatforms use the same postgres and database, tables are different because of platform name prefix
                 namespace="ns-kub-pg-test",
                 connectCredentials=Credential("connect", CredentialType.API_TOKEN),
                 postgresCredential=Credential("postgres", CredentialType.USER_PASSWORD),
                 gitCredential=Credential("git", CredentialType.API_TOKEN),
                 slackCredential=Credential("slack", CredentialType.API_TOKEN),
+                merge_datacontainer=k8s_merge_datacontainer,  # ✅ Kubernetes merge DB
                 airflowName="airflow",
                 milestoneStrategy=YellowMilestoneStrategy.LIVE_ONLY
                 ),
@@ -44,12 +54,12 @@ def createEcosystem() -> Ecosystem:
                 "YellowForensic",
                 locs={LocationKey("MyCorp:USA/NY_1")},
                 doc=PlainTextDocumentation("Forensic Yellow DataPlatform"),
-                postgresName="pg-data",  # Both YellowDataPlatforms use the same postgres and database, tables are different because of platform name prefix
                 namespace="ns-kub-pg-test",
                 connectCredentials=Credential("connect", CredentialType.API_TOKEN),
                 postgresCredential=Credential("postgres", CredentialType.USER_PASSWORD),
                 gitCredential=Credential("git", CredentialType.API_TOKEN),
                 slackCredential=Credential("slack", CredentialType.API_TOKEN),
+                merge_datacontainer=k8s_merge_datacontainer,  # ✅ Kubernetes merge DB
                 airflowName="airflow",
                 milestoneStrategy=YellowMilestoneStrategy.BATCH_MILESTONED
                 )
