@@ -105,7 +105,7 @@ def createEcosystem() -> Ecosystem:
                     locations={LocationKey("MyCorp:USA/NY_1")},  # Locations for database
                     databaseName="customer_db"  # Database name
                 ),
-                CronTrigger("Every 1 minute", "* * * * *"),  # Cron trigger for ingestion
+                CronTrigger("Every 1 minute", "*/5 * * * *"),  # Cron trigger for ingestion
                 IngestionConsistencyType.MULTI_DATASET,  # Ingestion consistency type
                 Credential("postgres", CredentialType.USER_PASSWORD),  # Credential for platform to read from database
                 ),
